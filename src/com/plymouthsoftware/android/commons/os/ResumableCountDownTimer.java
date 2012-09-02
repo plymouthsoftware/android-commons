@@ -10,15 +10,18 @@ public abstract class ResumableCountDownTimer {
     private long millisRemaining;
     private long elapsed;
     private long splitElapsed;
+    private long updateEveryMillis;
 
     private boolean inProgress;
     private boolean isPaused;
 
     private CountDownTimer countDownTimer;
 
-    public ResumableCountDownTimer() {
+    public ResumableCountDownTimer(long updateEveryMillis) {
         inProgress = false;
         isPaused = false;
+        
+        this.updateEveryMillis = updateEveryMillis;
     }
 
     public void start(long millis, boolean restart) {
@@ -35,7 +38,7 @@ public abstract class ResumableCountDownTimer {
         else
             splitTime = System.currentTimeMillis();
 
-        countDownTimer = new CountDownTimer(millis, 250) { // Update every second
+        countDownTimer = new CountDownTimer(millis, updateEveryMillis) { // Update every second
 
             @Override
             public void onTick(long millisUntilFinished) {
